@@ -1,0 +1,106 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --ring: rgba(27, 157, 227, .18);
+    --dur: 180ms;
+    --ease-out: cubic-bezier(.22, 1, .36, 1);
+    --ease-in-out: cubic-bezier(.4, 0, .2, 1);
+  }
+
+  body {
+    @apply font-sans text-slate-100 bg-navy-950 antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  button,
+  input,
+  textarea,
+  select {
+    font-family: inherit;
+  }
+}
+
+@layer components {
+  /* Scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-slate-300;
+    border-radius: 999px;
+    border: 3px solid transparent;
+    background-clip: content-box;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-slate-400;
+    background-clip: content-box;
+  }
+
+  /* Processing dot */
+  .pulse-dot {
+    @apply bg-flow-500;
+    width: 7px;
+    height: 7px;
+    border-radius: 999px;
+    animation: pulse 1.2s var(--ease-in-out) infinite;
+  }
+
+  /* Wave loader */
+  .wave-loader {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg, theme('colors.flow.500'), theme('colors.aqua.400'), theme('colors.flow.500'));
+    -webkit-mask: radial-gradient(closest-side, transparent 64%, #000 66%);
+    mask: radial-gradient(closest-side, transparent 64%, #000 66%);
+    animation: spin 1s linear infinite;
+  }
+
+  /* Sign-in wave bands */
+  .wave-band {
+    position: absolute;
+    left: -20%;
+    right: -20%;
+    height: 140%;
+    border-radius: 44%;
+    opacity: .55;
+  }
+
+  .wb-a {
+    top: 18%;
+    background: radial-gradient(closest-side, rgba(27, 157, 227, .5), transparent);
+    animation: drift 14s var(--ease-in-out) infinite;
+  }
+
+  .wb-b {
+    top: 38%;
+    background: radial-gradient(closest-side, rgba(63, 214, 196, .4), transparent);
+    animation: drift 18s var(--ease-in-out) infinite reverse;
+  }
+
+  .wb-c {
+    top: 58%;
+    background: radial-gradient(closest-side, rgba(14, 106, 160, .45), transparent);
+    animation: drift 22s var(--ease-in-out) infinite;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: .3; }
+  50% { opacity: 1; }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes drift {
+  0%, 100% { transform: translateX(-6%) scale(1); }
+  50% { transform: translateX(6%) scale(1.06); }
+}
