@@ -9,7 +9,7 @@ function MainLayout() {
       <Sidebar />
       <div className="flex flex-col flex-1">
         <Topbar />
-        <main className="flex-1 p-6">
+        <main className="flex-1 px-7 py-4">
           <Outlet />
         </main>
       </div>

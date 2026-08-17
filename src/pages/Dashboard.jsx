@@ -1,12 +1,12 @@
 import React from "react";
+import DashboardHeader from "../components/Dashboard/DashboardHeader";
+import SummaryCards from "../components/Dashboard/SummaryCards";
 
 export default function Dashboard() {
   return (
-    <div>
-      <h2 className="font-display text-2xl font-semibold text-navy-850">
-        Início
-      </h2>
-      <p className="mt-2 text-slate-500">Bem-vindo ao TOTVS IFlow.</p>
+    <div className="flex flex-col gap-4">
+      <DashboardHeader />
+      <SummaryCards />
     </div>
   );
 }
