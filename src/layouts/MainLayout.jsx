@@ -11,12 +11,14 @@ const currentUser = {
 
 function MainLayout() {
   return (
-    <div className="min-h-screen flex bg-navy-950">
+    <div className="h-screen flex bg-navy-950 overflow-hidden">
       <Sidebar user={currentUser} />
-      <div className="flex flex-col flex-1">
+      <div className="flex flex-col flex-1 overflow-hidden">
         <Topbar user={currentUser} />
-        <main className="flex-1 px-7 py-4">
-          <Outlet />
+        <main className="flex-1 overflow-y-auto px-7 py-4">
+          <div className="max-w-[1200px]">
+            <Outlet />
+          </div>
         </main>
       </div>
     </div>

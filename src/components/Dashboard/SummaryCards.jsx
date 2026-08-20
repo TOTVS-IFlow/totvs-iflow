@@ -11,7 +11,7 @@ const cardsContent = [
 
 export default function SummaryCards(){
     return (
-        <div className="grid grid-cols-4 gap-4 max-w-[970px]">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             {cardsContent.map((card) => (
                 <SummaryCard
                     key={card.title}
