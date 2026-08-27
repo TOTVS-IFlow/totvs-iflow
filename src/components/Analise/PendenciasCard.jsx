@@ -18,13 +18,13 @@ const STATUS_STYLES = {
 
 const DEFAULT_ITEMS = [
   {
-    number: 1,
+    id: 1,
     description: "Agendar 2ª fase com especialista de escalas e sindicatos",
     owner: "Eng. de vendas TOTVS",
     status: "aberta",
   },
   {
-    number: 2,
+    id: 2,
     description: "Validar parametrização das 32 convenções coletivas",
     owner: "Especialista TOTVS",
     status: "concluida",
@@ -38,9 +38,9 @@ export default function PendenciasCard({ items = DEFAULT_ITEMS, className = "w-f
         {items.map((item) => {
           const statusStyle = STATUS_STYLES[item.status] ?? STATUS_STYLES.aberta;
           return (
-            <li key={item.number} className="flex justify-between">
+            <li key={item.id} className="flex justify-between">
               <div className="flex gap-2 text-sm font-medium items-center">
-                <p className="text-accent-500 font-medium rounded-md px-2 py-0.5 text-xs bg-accent-950">{item.number}</p>
+                <p className="text-accent-500 font-medium rounded-md px-2 py-0.5 text-xs bg-accent-950">{item.id}</p>
                 {item.description}
               </div>
               <div className="flex items-center gap-3">
