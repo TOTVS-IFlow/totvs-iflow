@@ -1,12 +1,14 @@
 import React from "react";
+import PendenciasHeader from "../components/Pendencias/PendenciasHeader";
+import SummaryCards from "../components/Pendencias/SummaryCards";
+import ListaPendencias from "../components/Pendencias/ListaPendencias";
 
 export default function Pendencias() {
   return (
-    <div>
-      <h2 className="font-display text-2xl font-semibold text-navy-850">
-        Pendencias
-      </h2>
-      <p className="mt-2 text-slate-500">Bem-vindo ao TOTVS IFlow.</p>
+    <div className="flex flex-col gap-4">
+      <PendenciasHeader />
+      <SummaryCards />
+      <ListaPendencias className="w-full max-w-4xl" />
     </div>
   );
 }
