@@ -74,11 +74,11 @@ export default function ReuniaoList({selectedId, onSelect}) {
         </header>
         <div className="relative">
             <Search size={15} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-500" />
-            <input type="text" className="bg-surface rounded-lg border-accent-950 pl-8 pr-2 py-1.5 border w-full" placeholder="Buscar reunião ou cliente" />
+            <input type="text" className="bg-surface rounded-lg border-accent-950 pl-8 pr-2 py-1.5 border w-full outline-none transition-shadow focus:ring-2 focus:ring-accent-500" placeholder="Buscar reunião ou cliente" />
         </div>
         <ul className="mt-2 flex flex-col gap-1 flex-1 min-h-0 overflow-y-auto">
             {DEFAULT_ITEMS.map((reuniao) => (
-                <li className={`hover:bg-navy-850 p-2 rounded-lg cursor-pointer ${reuniao.id == selectedId && "bg-navy-800"}`} key={reuniao.id} onClick={() => onSelect(reuniao.id)}>
+                <li className={`p-2 rounded-lg cursor-pointer transition-colors ${reuniao.id === selectedId ? "bg-navy-800" : "hover:bg-navy-850"}`} key={reuniao.id} onClick={() => onSelect(reuniao.id)}>
                     <p className="text-accent-500 font-semibold text-xs">{reuniao.client}</p>
                     <p className="font-semibold text-sm">{reuniao.title}</p>
                     <p className="text-slate-500 font-mono text-xs text-[10px]">{formatarDataHora(reuniao.date)}</p>

@@ -24,10 +24,10 @@ export default function ReuniaoDetalhe({ reuniao }) {
       </header>
       <nav className="mt-4">
         <ul className="flex gap-4 border-b border-slate-700">
-          <li onClick={() => setAbaAtiva("resumo")} className={`flex gap-2 pb-2 -mb-px text-sm items-center cursor-pointer border-b-2 ${abaAtiva === "resumo" ? "text-accent-500 border-accent-500" : "text-slate-500 border-transparent"}`}><Sparkle size={12} /> Resumo</li>
-          <li onClick={() => setAbaAtiva("pendencias")} className={`flex gap-2 pb-2 -mb-px text-sm items-center cursor-pointer border-b-2 ${abaAtiva === "pendencias" ? "text-accent-500 border-accent-500" : "text-slate-500 border-transparent"}`}><ListChecks size={12} /> Pendências <span className="bg-navy-850 text-white text-xs px-2 rounded-full font-semibold">{reuniao.pendingCount}</span></li>
-          <li onClick={() => setAbaAtiva("oportunidades")} className={`flex gap-2 pb-2 -mb-px text-sm items-center cursor-pointer border-b-2 ${abaAtiva === "oportunidades" ? "text-accent-500 border-accent-500" : "text-slate-500 border-transparent"}`}><TrendingUp size={12} /> Oportunidades <span className="bg-navy-850 text-white text-xs px-2 rounded-full font-semibold">{reuniao.oportunidades.length}</span></li>
-          <li onClick={() => setAbaAtiva("transcricao")} className={`flex gap-2 pb-2 -mb-px text-sm items-center cursor-pointer border-b-2 ${abaAtiva === "transcricao" ? "text-accent-500 border-accent-500" : "text-slate-500 border-transparent"}`}><FileText size={12} /> Transcrição</li>
+          <li onClick={() => setAbaAtiva("resumo")} className={`flex gap-2 pb-2 -mb-px text-sm items-center cursor-pointer border-b-2 transition-colors ${abaAtiva === "resumo" ? "text-accent-500 border-accent-500" : "text-slate-500 border-transparent hover:text-slate-300"}`}><Sparkle size={12} /> Resumo</li>
+          <li onClick={() => setAbaAtiva("pendencias")} className={`flex gap-2 pb-2 -mb-px text-sm items-center cursor-pointer border-b-2 transition-colors ${abaAtiva === "pendencias" ? "text-accent-500 border-accent-500" : "text-slate-500 border-transparent hover:text-slate-300"}`}><ListChecks size={12} /> Pendências <span className="bg-navy-850 text-white text-xs px-2 rounded-full font-semibold">{reuniao.pendingCount}</span></li>
+          <li onClick={() => setAbaAtiva("oportunidades")} className={`flex gap-2 pb-2 -mb-px text-sm items-center cursor-pointer border-b-2 transition-colors ${abaAtiva === "oportunidades" ? "text-accent-500 border-accent-500" : "text-slate-500 border-transparent hover:text-slate-300"}`}><TrendingUp size={12} /> Oportunidades <span className="bg-navy-850 text-white text-xs px-2 rounded-full font-semibold">{reuniao.oportunidades.length}</span></li>
+          <li onClick={() => setAbaAtiva("transcricao")} className={`flex gap-2 pb-2 -mb-px text-sm items-center cursor-pointer border-b-2 transition-colors ${abaAtiva === "transcricao" ? "text-accent-500 border-accent-500" : "text-slate-500 border-transparent hover:text-slate-300"}`}><FileText size={12} /> Transcrição</li>
         </ul>
       </nav>
       <main>
@@ -74,14 +74,16 @@ export default function ReuniaoDetalhe({ reuniao }) {
               <ul className="flex flex-col divide-y divide-slate-700">
                 {reuniao.pendencias.map((pendencia)=>(
                   <li key={pendencia.id} className="flex gap-2.5 items-center py-3 first:pt-0 last:pb-0">
-                    <label className="relative flex items-center justify-center w-4 h-4 shrink-0 cursor-pointer">
-                      <input type="checkbox" className="peer appearance-none w-4 h-4 rounded border border-slate-600 bg-transparent checked:bg-accent-500 checked:border-accent-500 transition-colors cursor-pointer" />
-                      <Check size={11} strokeWidth={3} className="pointer-events-none absolute text-navy-950 opacity-0 peer-checked:opacity-100" />
+                    <label className="flex gap-2.5 items-center cursor-pointer group">
+                      <span className="relative flex items-center justify-center w-4 h-4 shrink-0">
+                        <input type="checkbox" className="peer appearance-none w-4 h-4 rounded border border-slate-600 bg-transparent checked:bg-accent-500 checked:border-accent-500 group-hover:border-accent-500 transition-colors cursor-pointer" />
+                        <Check size={11} strokeWidth={3} className="pointer-events-none absolute text-navy-950 opacity-0 peer-checked:opacity-100 transition-opacity" />
+                      </span>
+                      <div>
+                        <p className="font-medium">{pendencia.description}</p>
+                        <p className="font-sora text-xs text-slate-500 items-center flex gap-1"><UserCircle size={14} className="text-accent-700" /> {pendencia.owner}</p>
+                      </div>
                     </label>
-                    <div>
-                      <p className="font-medium">{pendencia.description}</p>
-                      <p className="font-sora text-xs text-slate-500 items-center flex gap-1"><UserCircle size={14} className="text-accent-700" /> {pendencia.owner}</p>
-                    </div>
                     <p className={`ml-auto text-xs rounded-full py-0.5 px-2 ${pendencia.status === "aberta" ? "text-yellow-200 bg-yellow-800" : "text-slate-500 bg-navy-850"}`}>{pendencia.status}</p>
                   </li>
                 ))}
