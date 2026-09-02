@@ -13,11 +13,16 @@ export const DEFAULT_ITEMS = [
         oportunidades: [
             { tag: "Upsell", description: "Ana sinalizou abertura para renovar com plano superior" },
         ],
+        riscos: [
+            { level: "baixo", description: "Banco de horas ainda em Excel", id: 0},
+            { level: "alto", description: "Aplicação não funciona nos finais de semana", id: 1}
+        ],
         pendencias: [
             { id: 1, description: "Escalar caso de suporte ao time de CS", owner: "Carla Mendes", status: "aberta" },
         ],
+        pontosDeAtencao: "ONPS interno subiu para 72, ja a adoção do módulo financeiro em 89%, ONPS interno subiu para 72, ja a adoção do módulo financeiro em 89%, ONPS interno subiu para 72, ja a adoção do módulo financeiro em 89%.",
         transcricao:
-            "[14:32] Carla Mendes: Vamos revisar os números do trimestre...\n[14:41] Ana Paula: No geral estamos satisfeitos, só o suporte que precisa melhorar o tempo de resposta.\n[14:52] Carla Mendes: Anotado, vou escalar o caso ainda hoje.",
+            "[14:32] Carla Mendes: Vamos revisar os números do trimestre...\n[14:41] Ana Paula: No geral estamos satisfeitos, só o suporte que precisa melhorar o tempo de resposta.\n[14:52] Carla Mendes: Anotado, vou escalar o caso ainda hoje. [14:32] Carla Mendes: Vamos revisar os números do trimestre...\n[14:41] Ana Paula: No geral estamos satisfeitos, só o suporte que precisa melhorar o tempo de resposta.\n[14:52] Carla Mendes: Anotado, vou escalar o caso ainda hoje. [14:32] Carla Mendes: Vamos revisar os números do trimestre...\n[14:41] Ana Paula: No geral estamos satisfeitos, só o suporte que precisa melhorar o tempo de resposta.\n[14:52] Carla Mendes: Anotado, vou escalar o caso ainda hoje. [14:32] Carla Mendes: Vamos revisar os números do trimestre...\n[14:41] Ana Paula: No geral estamos satisfeitos, só o suporte que precisa melhorar o tempo de resposta.\n[14:52] Carla Mendes: Anotado, vou escalar o caso ainda hoje. [14:32] Carla Mendes: Vamos revisar os números do trimestre...\n[14:41] Ana Paula: No geral estamos satisfeitos, só o suporte que precisa melhorar o tempo de resposta.\n[14:52] Carla Mendes: Anotado, vou escalar o caso ainda hoje. [14:32] Carla Mendes: Vamos revisar os números do trimestre...\n[14:41] Ana Paula: No geral estamos satisfeitos, só o suporte que precisa melhorar o tempo de resposta.\n[14:52] Carla Mendes: Anotado, vou escalar o caso ainda hoje. [14:32] Carla Mendes: Vamos revisar os números do trimestre...\n[14:41] Ana Paula: No geral estamos satisfeitos, só o suporte que precisa melhorar o tempo de resposta.\n[14:52] Carla Mendes: Anotado, vou escalar o caso ainda hoje. [14:32] Carla Mendes: Vamos revisar os números do trimestre...\n[14:41] Ana Paula: No geral estamos satisfeitos, só o suporte que precisa melhorar o tempo de resposta.\n[14:52] Carla Mendes: Anotado, vou escalar o caso ainda hoje.",
     },
     {
         id: 1,
@@ -26,15 +31,17 @@ export const DEFAULT_ITEMS = [
         date: "2026-07-04T10:17:00Z",
         pendingCount: 3,
         resumo: "Reunião de abertura do projeto de implantação do ERP. Escopo e cronograma alinhados, time do cliente engajado e disponível para os próximos passos.",
-        oportunidades: [
-            { tag: "Cross-sell", description: "Cliente demonstrou interesse no módulo fiscal após o go-live do financeiro" },
-            { tag: "Cross-sell", description: "Possível adesão ao módulo de escalas na safra" },
+        oportunidades: [],
+        riscos: [
+            { level: "baixo", description: "Banco de horas ainda em Excel", id: 0},
+            { level: "alto", description: "Aplicação não funciona nos finais de semana", id: 1}
         ],
         pendencias: [
             { id: 1, description: "Enviar plano de treinamento aos usuários-chave", owner: "Marcos Silva", status: "aberta" },
             { id: 2, description: "Validar cronograma de 90 dias com o time técnico", owner: "Renata Paz", status: "aberta" },
             { id: 3, description: "Nomear responsável técnico da Cooperativa", owner: "Marcos Silva", status: "concluida" },
         ],
+        pontosDeAtencao: "",
         transcricao:
             "[10:20] Marcos Silva: Bom dia a todos, vamos começar apresentando o cronograma...\n[10:29] Renata Paz: Nosso time está pronto para iniciar assim que confirmarmos as datas.\n[10:35] Marcos Silva: Combinado. Vamos avançar com o kickoff técnico na próxima semana.",
     },
@@ -48,7 +55,9 @@ export const DEFAULT_ITEMS = [
         oportunidades: [
             { tag: "Cross-sell", description: "Automação fiscal como porta de entrada para o módulo financeiro completo" },
         ],
+        riscos: [],
         pendencias: [],
+        pontosDeAtencao: "",
         transcricao:
             "[16:31] Bruno Lima: Hoje fechamos os impostos manualmente, é bem sujeito a erro.\n[16:40] Equipe TOTVS: Entendido, vamos mapear os pontos de automação possíveis e voltamos com uma proposta.",
     },
