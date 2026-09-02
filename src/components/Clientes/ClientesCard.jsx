@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { TrendingUp, Minus, TrendingDown, ArrowRight } from "lucide-react";
 
 const SENTIMENT_STYLES = {
@@ -11,7 +12,7 @@ export default function ClientesCard({ client, sentiment, reunioes, pendencias, 
     const sentimentStyle = SENTIMENT_STYLES[sentiment] ?? SENTIMENT_STYLES.positivo;
     const SentimentIcon = sentimentStyle.icon;
     return (
-        <article className={`bg-surface border border-accent-950 px-5 py-4 rounded-2xl ${className}`}>
+        <article className={`group bg-surface border border-accent-950 px-5 py-4 rounded-2xl transition-colors hover:border-accent-800 ${className}`}>
             <div className="flex justify-between items-start gap-2">
                 <p className="font-bold text-lg">{client} </p>
                 <p className={`flex gap-1.5 px-3 py-1 font-semibold rounded-full items-center font-sora text-xs shrink-0 ${sentimentStyle.className}`}>
@@ -35,7 +36,10 @@ export default function ClientesCard({ client, sentiment, reunioes, pendencias, 
                 </li>
             </ul>
             <hr className="my-4 border-slate-700" />
-            <a href="" className="flex gap-2 text-center items-center text-accent-500 font-semibold text-[15px]">Ver histórico <ArrowRight size={15} /> </a>
+            <Link to="/historico" className="flex gap-2 items-center text-accent-500 hover:text-accent-400 font-semibold text-[15px] rounded transition-colors outline-none focus-visible:ring-2 focus-visible:ring-accent-500">
+                Ver histórico
+                <ArrowRight size={15} className="transition-transform group-hover:translate-x-0.5" />
+            </Link>
         </article>
     )
 }
