@@ -5,6 +5,12 @@ export function formatarDataHora(dateString) {
   return `${data}, ${hora}`;
 }
 
+export function formatarMesCurto(mesIso) {
+  const [ano, mes] = mesIso.split("-").map(Number);
+  const date = new Date(ano, mes - 1, 1);
+  return date.toLocaleDateString("pt-BR", { month: "short" }).replace(".", "");
+}
+
 export function formatarDataHoraExtensa(dateString) {
   const date = new Date(dateString);
   const data = date.toLocaleDateString("pt-BR", { day: "2-digit", month: "long", year: "numeric" });
