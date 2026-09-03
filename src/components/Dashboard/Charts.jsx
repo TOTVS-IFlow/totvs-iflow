@@ -21,7 +21,7 @@ const COLORS = {
   negativo: "#dc4b4b",
 };
 
-// score vai de -1 (totalmente negativo) a 1 (totalmente positivo)
+// score vai de -1 (negativo) a 1 (positivo)
 const DEFAULT_TREND_DATA = [
   { month: "jan", score: 0.6 },
   { month: "fev", score: 0.1 },
@@ -83,7 +83,8 @@ function SentimentBarChart({ data }) {
 
 function SentimentDonutChart({ data }) {
   const total = data.reduce((sum, item) => sum + item.value, 0);
-  const positivoPct = total === 0 ? 0 : Math.round((data[0].value / total) * 100);
+  const positivo = data.find((item) => item.name === "Positivo");
+  const positivoPct = total === 0 ? 0 : Math.round(((positivo?.value ?? 0) / total) * 100);
 
   return (
     <div className="flex-1 flex items-center justify-center gap-8">
