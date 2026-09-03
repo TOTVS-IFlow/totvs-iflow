@@ -4,6 +4,9 @@
 
 @layer base {
   :root {
+    /* faz o navegador desenhar os controles nativos (dropdown do select,
+       barra de rolagem, autofill) no tema escuro, combinando com o app */
+    color-scheme: dark;
     --ring: rgba(27, 157, 227, .18);
     --dur: 180ms;
     --ease-out: cubic-bezier(.22, 1, .36, 1);
