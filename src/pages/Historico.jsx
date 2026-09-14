@@ -1,12 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
+import ReuniaoList from "../components/Historico/ReuniaoList";
+import ReuniaoDetalhe from "../components/Historico/ReuniaoDetalhe";
+import { MEETINGS } from "../mocks/meetings";
 
 export default function Historico() {
+  const [selectedId, setSelectedId] = useState(MEETINGS[0].id)
+  const reuniaoSelecionada = MEETINGS.find((r) => r.id === selectedId)
   return (
-    <div>
-      <h2 className="font-display text-2xl font-semibold text-navy-850">
-        Historico
-      </h2>
-      <p className="mt-2 text-slate-500">Bem-vindo ao TOTVS IFlow.</p>
+    <div className="flex flex-col gap-4">
+      <div className="flex h-[calc(100vh-100px)]">
+        <ReuniaoList meetings={MEETINGS} selectedId={selectedId} onSelect={setSelectedId} />
+        <ReuniaoDetalhe reuniao={reuniaoSelecionada} />
+      </div>
     </div>
   );
 }
