@@ -9,38 +9,15 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  ReferenceLine,
   PieChart,
   Pie,
 } from "recharts";
 import ChartCard from "./ChartCard";
+import { SENTIMENT_STYLES, getSentimentStyle } from "../../constants/sentiment";
+import { DASHBOARD_SUMMARY } from "../../mocks/dashboard";
+import { formatarMesCurto } from "../../utils/formatDate";
 
-const COLORS = {
-  positivo: "#31ccb9",
-  neutro: "#94a3b8",
-  negativo: "#dc4b4b",
-};
-
-// score vai de -1 (negativo) a 1 (positivo)
-const DEFAULT_TREND_DATA = [
-  { month: "jan", score: 0.6 },
-  { month: "fev", score: 0.1 },
-  { month: "mar", score: -0.4 },
-];
-
-const DEFAULT_DISTRIBUTION_DATA = [
-  { name: "Positivo", value: 1, color: COLORS.positivo },
-  { name: "Neutro", value: 1, color: COLORS.neutro },
-  { name: "Negativo", value: 1, color: COLORS.negativo },
-];
-
-function scoreToColor(score) {
-  if (score > 0.2) return COLORS.positivo;
-  if (score < -0.2) return COLORS.negativo;
-  return COLORS.neutro;
-}
-
-function SentimentBarChart({ data }) {
+function MeetingsPerMonthChart({ data }) {
   return (
     <div className="w-full h-56">
       <ResponsiveContainer width="100%" height="100%">
@@ -48,21 +25,21 @@ function SentimentBarChart({ data }) {
           <CartesianGrid vertical={false} stroke="#334155" strokeDasharray="3 3" />
           <XAxis
             dataKey="month"
+            tickFormatter={formatarMesCurto}
             tick={{ fill: "#94a3b8", fontSize: 12 }}
             axisLine={{ stroke: "#334155" }}
             tickLine={false}
           />
           <YAxis
-            domain={[-1, 1]}
-            ticks={[-1, -0.5, 0, 0.5, 1]}
+            allowDecimals={false}
             tick={{ fill: "#94a3b8", fontSize: 12 }}
             axisLine={false}
             tickLine={false}
           />
-          <ReferenceLine y={0} stroke="#475569" />
           <Tooltip
             cursor={{ fill: "rgba(255,255,255,0.04)" }}
-            formatter={(value) => value.toFixed(1)}
+            labelFormatter={formatarMesCurto}
+            formatter={(value) => [`${value} ${value === 1 ? "reunião" : "reuniões"}`, "Analisadas"]}
             contentStyle={{
               background: "#0C2132",
               border: "1px solid #103A46",
@@ -70,11 +47,7 @@ function SentimentBarChart({ data }) {
               color: "#fff",
             }}
           />
-          <Bar dataKey="score" radius={[4, 4, 0, 0]} maxBarSize={40}>
-            {data.map((entry) => (
-              <Cell key={entry.month} fill={scoreToColor(entry.score)} />
-            ))}
-          </Bar>
+          <Bar dataKey="count" radius={[4, 4, 0, 0]} maxBarSize={40} fill={SENTIMENT_STYLES.positive.color} />
         </BarChart>
       </ResponsiveContainer>
     </div>
@@ -83,8 +56,8 @@ function SentimentBarChart({ data }) {
 
 function SentimentDonutChart({ data }) {
   const total = data.reduce((sum, item) => sum + item.value, 0);
-  const positivo = data.find((item) => item.name === "Positivo");
-  const positivoPct = total === 0 ? 0 : Math.round(((positivo?.value ?? 0) / total) * 100);
+  const positive = data.find((item) => item.sentiment === "positive");
+  const positivePct = total === 0 ? 0 : Math.round(((positive?.value ?? 0) / total) * 100);
 
   return (
     <div className="flex-1 flex items-center justify-center gap-8">
@@ -94,32 +67,32 @@ function SentimentDonutChart({ data }) {
             <Pie
               data={data}
               dataKey="value"
-              nameKey="name"
+              nameKey="sentiment"
               innerRadius="70%"
               outerRadius="100%"
               paddingAngle={2}
               stroke="none"
             >
               {data.map((entry) => (
-                <Cell key={entry.name} fill={entry.color} />
+                <Cell key={entry.sentiment} fill={getSentimentStyle(entry.sentiment).color} />
               ))}
             </Pie>
           </PieChart>
         </ResponsiveContainer>
         <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-          <span className="text-2xl font-bold text-accent-500">{positivoPct}%</span>
+          <span className="text-2xl font-bold text-accent-500">{positivePct}%</span>
           <span className="text-xs text-slate-400">positivo</span>
         </div>
       </div>
 
       <ul className="flex flex-col gap-2 text-sm">
         {data.map((item) => (
-          <li key={item.name} className="flex items-center gap-2 text-slate-300">
+          <li key={item.sentiment} className="flex items-center gap-2 text-slate-300">
             <span
               className="w-2.5 h-2.5 rounded-full"
-              style={{ backgroundColor: item.color }}
+              style={{ backgroundColor: getSentimentStyle(item.sentiment).color }}
             />
-            <span className="flex-1">{item.name}</span>
+            <span className="flex-1">{getSentimentStyle(item.sentiment).label}</span>
             <span className="text-white font-semibold">{item.value}</span>
           </li>
         ))}
@@ -129,13 +102,13 @@ function SentimentDonutChart({ data }) {
 }
 
 export default function Charts({
-  trendData = DEFAULT_TREND_DATA,
-  distributionData = DEFAULT_DISTRIBUTION_DATA,
+  meetingsPerMonth = DASHBOARD_SUMMARY.meetingsPerMonth,
+  distributionData = DASHBOARD_SUMMARY.sentimentDistribution,
 }) {
   return (
     <div className="flex flex-wrap gap-4">
-      <ChartCard title="Sentimento ao longo do tempo" icon={BarChart3}>
-        <SentimentBarChart data={trendData} />
+      <ChartCard title="Reuniões por mês" icon={BarChart3}>
+        <MeetingsPerMonthChart data={meetingsPerMonth} />
       </ChartCard>
       <ChartCard title="Distribuição de sentimento" icon={PieChartIcon}>
         <SentimentDonutChart data={distributionData} />

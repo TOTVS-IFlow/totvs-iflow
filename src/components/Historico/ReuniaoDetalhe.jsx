@@ -1,15 +1,13 @@
 import React, { useState } from "react";
 import { formatarDataHoraExtensa } from "../../utils/formatDate";
 import { Calendar, Sparkle, ListChecks, TrendingUp, FileText, CheckCircle, UserCircle, Check } from "lucide-react";
-
-const RISCO_STYLES = {
-  baixo: { border: "border-l-slate-500", label: "text-slate-300", badge: "text-slate-300 bg-slate-700 bg-opacity-45" },
-  medio: { border: "border-l-warning", label: "text-yellow-200", badge: "text-yellow-100 bg-warning bg-opacity-45" },
-  alto: { border: "border-l-danger", label: "text-danger", badge: "text-red-300 bg-red-900 bg-opacity-45" },
-};
+import { getRiskLevelStyle } from "../../constants/riskLevel";
+import { getPendingStatusStyle, countOpen } from "../../constants/pendingStatus";
+import { getOpportunityTagLabel } from "../../constants/opportunityTag";
 
 export default function ReuniaoDetalhe({ reuniao }) {
   const [abaAtiva, setAbaAtiva] = useState("resumo")
+  const openPendingCount = countOpen(reuniao.pendingItems);
   return (
     <div className="border-accent-950 border rounded-r-2xl px-5 py-4 flex-1 h-full min-h-0 overflow-y-auto">
       <header>
@@ -25,8 +23,8 @@ export default function ReuniaoDetalhe({ reuniao }) {
       <nav className="mt-4">
         <ul className="flex gap-4 border-b border-slate-700">
           <li onClick={() => setAbaAtiva("resumo")} className={`flex gap-2 pb-2 -mb-px text-sm items-center cursor-pointer border-b-2 transition-colors ${abaAtiva === "resumo" ? "text-accent-500 border-accent-500" : "text-slate-500 border-transparent hover:text-slate-300"}`}><Sparkle size={12} /> Resumo</li>
-          <li onClick={() => setAbaAtiva("pendencias")} className={`flex gap-2 pb-2 -mb-px text-sm items-center cursor-pointer border-b-2 transition-colors ${abaAtiva === "pendencias" ? "text-accent-500 border-accent-500" : "text-slate-500 border-transparent hover:text-slate-300"}`}><ListChecks size={12} /> Pendências <span className="bg-navy-850 text-white text-xs px-2 rounded-full font-semibold">{reuniao.pendingCount}</span></li>
-          <li onClick={() => setAbaAtiva("oportunidades")} className={`flex gap-2 pb-2 -mb-px text-sm items-center cursor-pointer border-b-2 transition-colors ${abaAtiva === "oportunidades" ? "text-accent-500 border-accent-500" : "text-slate-500 border-transparent hover:text-slate-300"}`}><TrendingUp size={12} /> Oportunidades <span className="bg-navy-850 text-white text-xs px-2 rounded-full font-semibold">{reuniao.oportunidades.length}</span></li>
+          <li onClick={() => setAbaAtiva("pendencias")} className={`flex gap-2 pb-2 -mb-px text-sm items-center cursor-pointer border-b-2 transition-colors ${abaAtiva === "pendencias" ? "text-accent-500 border-accent-500" : "text-slate-500 border-transparent hover:text-slate-300"}`}><ListChecks size={12} /> Pendências <span className="bg-navy-850 text-white text-xs px-2 rounded-full font-semibold">{openPendingCount}</span></li>
+          <li onClick={() => setAbaAtiva("oportunidades")} className={`flex gap-2 pb-2 -mb-px text-sm items-center cursor-pointer border-b-2 transition-colors ${abaAtiva === "oportunidades" ? "text-accent-500 border-accent-500" : "text-slate-500 border-transparent hover:text-slate-300"}`}><TrendingUp size={12} /> Oportunidades <span className="bg-navy-850 text-white text-xs px-2 rounded-full font-semibold">{reuniao.opportunities.length}</span></li>
           <li onClick={() => setAbaAtiva("transcricao")} className={`flex gap-2 pb-2 -mb-px text-sm items-center cursor-pointer border-b-2 transition-colors ${abaAtiva === "transcricao" ? "text-accent-500 border-accent-500" : "text-slate-500 border-transparent hover:text-slate-300"}`}><FileText size={12} /> Transcrição</li>
         </ul>
       </nav>
@@ -38,7 +36,7 @@ export default function ReuniaoDetalhe({ reuniao }) {
                 <Sparkle size={8} />
                 <p>RESUMO GERADO POR IA</p>
               </div>
-              <p className="text-sm mt-1">{reuniao.resumo}</p>
+              <p className="text-sm mt-1">{reuniao.summary}</p>
             </div>
             <div className="my-4">
               <div className="flex gap-1 items-center font-semibold">
@@ -47,32 +45,32 @@ export default function ReuniaoDetalhe({ reuniao }) {
               </div>
               <div className="flex gap-1 text-sm">
                 <CheckCircle size={13} className="text-success mt-1.5 shrink-0" />
-                <p>{reuniao.pontosDeAtencao}</p>
+                <p>{reuniao.attentionPoint}</p>
               </div>
             </div>
             <div className="flex gap-4 flex-wrap">
-              {reuniao.oportunidades.length > 0 && 
+              {reuniao.opportunities.length > 0 &&
                 <div className="bg-navy-900 items-start gap-1 border-l-2 border-l-accent-500 p-2 rounded-lg flex-none basis-[calc(50%-0.5rem)] min-w-[200px] flex flex-col">
                   <p className="font-semibold text-accent-500 text-xs">OPORTUNIDADE</p>
-                  <p className="font-semibold text-sm mb-1">{reuniao.oportunidades[0].description}</p>
-                  <p className="mt-auto self-end text-accent-500 rounded-full px-2 py-0.5 text-xs bg-accent-950">{reuniao.oportunidades[0].tag}</p>
+                  <p className="font-semibold text-sm mb-1">{reuniao.opportunities[0].description}</p>
+                  <p className="mt-auto self-end text-accent-500 rounded-full px-2 py-0.5 text-xs bg-accent-950">{getOpportunityTagLabel(reuniao.opportunities[0].tag)}</p>
                 </div>
               }
-              {reuniao.riscos.length > 0 &&
-                <div className={`bg-navy-900 border-l-2 p-2 rounded-lg flex-none basis-[calc(50%-0.5rem)] min-w-[200px] flex flex-col ${RISCO_STYLES[reuniao.riscos[0].level].border}`}>
-                  <p className={`font-semibold text-xs ${RISCO_STYLES[reuniao.riscos[0].level].label}`}>RISCO</p>
-                  <p className="font-semibold text-sm">{reuniao.riscos[0].description}</p>
-                  <p className={`mt-auto self-end rounded-full px-2 py-0.5 text-xs ${RISCO_STYLES[reuniao.riscos[0].level].badge}`}>{reuniao.riscos[0].level}</p>
+              {reuniao.risks.length > 0 &&
+                <div className={`bg-navy-900 border-l-2 p-2 rounded-lg flex-none basis-[calc(50%-0.5rem)] min-w-[200px] flex flex-col ${getRiskLevelStyle(reuniao.risks[0].level).border}`}>
+                  <p className={`font-semibold text-xs ${getRiskLevelStyle(reuniao.risks[0].level).text}`}>RISCO</p>
+                  <p className="font-semibold text-sm">{reuniao.risks[0].description}</p>
+                  <p className={`mt-auto self-end rounded-full px-2 py-0.5 text-xs ${getRiskLevelStyle(reuniao.risks[0].level).badge}`}>{getRiskLevelStyle(reuniao.risks[0].level).shortLabel}</p>
                 </div>
               }
             </div>
           </section>
         }
-        {abaAtiva === "pendencias" && 
+        {abaAtiva === "pendencias" &&
           <section className="pt-5">
-            {reuniao.pendencias.length > 0 &&
+            {reuniao.pendingItems.length > 0 &&
               <ul className="flex flex-col divide-y divide-slate-700">
-                {reuniao.pendencias.map((pendencia)=>(
+                {reuniao.pendingItems.map((pendencia)=>(
                   <li key={pendencia.id} className="flex gap-2.5 items-center py-3 first:pt-0 last:pb-0">
                     <label className="flex gap-2.5 items-center cursor-pointer group">
                       <span className="relative flex items-center justify-center w-4 h-4 shrink-0">
@@ -84,12 +82,12 @@ export default function ReuniaoDetalhe({ reuniao }) {
                         <p className="font-sora text-xs text-slate-500 items-center flex gap-1"><UserCircle size={14} className="text-accent-700" /> {pendencia.owner}</p>
                       </div>
                     </label>
-                    <p className={`ml-auto text-xs rounded-full py-0.5 px-2 ${pendencia.status === "aberta" ? "text-yellow-200 bg-yellow-800" : "text-slate-500 bg-navy-850"}`}>{pendencia.status}</p>
+                    <p className={`ml-auto text-xs rounded-full py-0.5 px-2 ${getPendingStatusStyle(pendencia.status).wrapperClass}`}>{getPendingStatusStyle(pendencia.status).label}</p>
                   </li>
                 ))}
               </ul>
             }
-            {reuniao.pendencias.length === 0 &&
+            {reuniao.pendingItems.length === 0 &&
               <p className="flex gap-1.5 items-center justify-center text-slate-400 py-6"><CheckCircle size={16} /> Não houve pendências nesta reunião</p>
             }
           </section>
@@ -97,29 +95,29 @@ export default function ReuniaoDetalhe({ reuniao }) {
         {abaAtiva === "oportunidades" &&
           <section className="pt-5">
             <div className="flex gap-4 flex-wrap">
-              {reuniao.oportunidades.map((oportunidade, index)=>(
+              {reuniao.opportunities.map((oportunidade, index)=>(
                 <div key={`oportunidade-${index}`} className="bg-navy-900 items-start gap-1 border-l-2 border-l-accent-500 p-2 rounded-lg flex-none basis-[calc(50%-0.5rem)] min-w-[200px] flex flex-col">
                   <p className="font-semibold text-accent-500 text-xs">OPORTUNIDADE</p>
                   <p className="font-semibold text-sm mb-1">{oportunidade.description}</p>
-                  <p className="mt-auto self-end text-accent-500 rounded-full px-2 py-0.5 text-xs bg-accent-950">{oportunidade.tag}</p>
+                  <p className="mt-auto self-end text-accent-500 rounded-full px-2 py-0.5 text-xs bg-accent-950">{getOpportunityTagLabel(oportunidade.tag)}</p>
                 </div>
               ))}
-              {reuniao.riscos.map((risco, index) => (
-                <div key={`risco-${index}`} className={`bg-navy-900 gap-1 border-l-2 p-2 rounded-lg flex-none basis-[calc(50%-0.5rem)] min-w-[200px] flex flex-col ${RISCO_STYLES[risco.level].border}`}>
-                  <p className={`font-semibold text-xs ${RISCO_STYLES[risco.level].label}`}>RISCO</p>
+              {reuniao.risks.map((risco, index) => (
+                <div key={`risco-${index}`} className={`bg-navy-900 gap-1 border-l-2 p-2 rounded-lg flex-none basis-[calc(50%-0.5rem)] min-w-[200px] flex flex-col ${getRiskLevelStyle(risco.level).border}`}>
+                  <p className={`font-semibold text-xs ${getRiskLevelStyle(risco.level).text}`}>RISCO</p>
                   <p className="font-semibold text-sm">{risco.description}</p>
-                  <p className={`mt-auto self-end rounded-full px-2 py-0.5 text-xs ${RISCO_STYLES[risco.level].badge}`}>{risco.level}</p>
+                  <p className={`mt-auto self-end rounded-full px-2 py-0.5 text-xs ${getRiskLevelStyle(risco.level).badge}`}>{getRiskLevelStyle(risco.level).shortLabel}</p>
                 </div>
               ))}
             </div>
-            {(reuniao.oportunidades.length === 0 && reuniao.riscos.length === 0)  &&
+            {(reuniao.opportunities.length === 0 && reuniao.risks.length === 0)  &&
               <p className="flex gap-1.5 items-center justify-center text-slate-400 py-6"><CheckCircle size={16} /> Não houve oportunidades ou riscos nesta reunião</p>
             }
           </section>
         }
-        {abaAtiva === "transcricao" && 
+        {abaAtiva === "transcricao" &&
           <section className="pt-5">
-            <p className="text-slate-400 p-2.5 border border-navy-800 font-mono text-xs">{reuniao.transcricao}</p>
+            <p className="text-slate-400 p-2.5 border border-navy-800 font-mono text-xs">{reuniao.transcript}</p>
           </section>
         }
       </main>

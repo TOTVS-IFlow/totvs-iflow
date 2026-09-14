@@ -1,14 +1,17 @@
 import React from "react";
 import SummaryCard from "../Dashboard/SummaryCard";
 import { ListChecks, CheckCircle, Clock } from "lucide-react";
+import { PENDING_ITEMS } from "../../mocks/pendingItems";
+import { countOpen } from "../../constants/pendingStatus";
 
-const cardsContent = [
-  { title: "Total de pendências", value: 5, description: "nas reuniões do periodo", icon: ListChecks, valueColor: "text-slate-100"},
-  { title: "Em aberto", value: 3, description: "aguardando ação", icon: Clock, valueColor: "text-warning"},
-  { title: "Concluídas", value: 2, description: "resolvidas no período", icon: CheckCircle, valueColor: "text-success"}
-];
+export default function SummaryCards({ items = PENDING_ITEMS }){
+    const open = countOpen(items);
+    const cardsContent = [
+      { title: "Total de pendências", value: items.length, description: "nas reuniões do período", icon: ListChecks, valueColor: "text-slate-100"},
+      { title: "Em aberto", value: open, description: "aguardando ação", icon: Clock, valueColor: "text-warning"},
+      { title: "Concluídas", value: items.length - open, description: "resolvidas no período", icon: CheckCircle, valueColor: "text-success"}
+    ];
 
-export default function SummaryCards(){
     return (
         <div className="flex flex-wrap gap-4">
             {cardsContent.map((card) => (
