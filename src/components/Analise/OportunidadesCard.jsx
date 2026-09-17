@@ -9,7 +9,7 @@ export default function OportunidadesCard({ items = [], className }) {
       <ul className="flex flex-col gap-2">
         {items.map((item, index) => (
           <li key={index} className="flex gap-2 text-[15px] font-medium items-center">
-            <p className="text-accent-500 font-normal rounded-full px-2 py-0.5 text-xs bg-accent-950">{getOpportunityTagLabel(item.tag)}</p>
+            <p className="text-accent-500 font-normal rounded-full px-2 py-0.5 text-xs bg-accent-950 shrink-0 whitespace-nowrap">{getOpportunityTagLabel(item.tag)}</p>
             {item.description}
           </li>
         ))}
