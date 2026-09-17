@@ -6,7 +6,7 @@ export const SENTIMENT_STYLES = {
     label: "Positivo",
     icon: TrendingUp,
     className: "text-accent-500 bg-accent-950",
-    color: "#31ccb9",
+    color: "#25c2ae",
   },
   neutral: {
     label: "Neutro",

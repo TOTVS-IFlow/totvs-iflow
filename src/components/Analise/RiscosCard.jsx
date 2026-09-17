@@ -11,7 +11,7 @@ export default function RiscosCard({ items = [], className }) {
           const levelStyle = getRiskLevelStyle(item.level);
           return (
             <li key={index} className="flex gap-2 text-[15px] font-medium items-center">
-              <p className={`font-normal rounded-full px-2 py-0.5 text-xs ${levelStyle.badge}`}>
+              <p className={`font-normal rounded-full px-2 py-0.5 text-xs shrink-0 whitespace-nowrap ${levelStyle.badge}`}>
                 {levelStyle.label}
               </p>
               {item.description}
